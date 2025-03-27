@@ -11,11 +11,12 @@ class DLL:
         for x in data:
             self.add_last(x)
                 
-    def __init__(self,data):
+    def __init__(self,data=None):
         self.tail=None
         self.len=0
         self.head=None
-        self.create(data)
+        if data:
+          self.create(data)
         
     def add_last(self,data):
         temp=Node(data)
