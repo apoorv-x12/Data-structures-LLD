@@ -25,6 +25,7 @@ class Stack:
         
    def length(self):
         return len(self.array)
+      
    def display(self):
         """Display stack elements."""
         print("Stack:", self.array)
