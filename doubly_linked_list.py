@@ -3,6 +3,7 @@ Implementation of a Doubly Linked List data structure.
 """
 
 
+# pylint: disable=too-few-public-methods
 class Node:
     """A node in the doubly linked list."""
     def __init__(self, data):

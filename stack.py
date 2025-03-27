@@ -3,6 +3,7 @@ Implementation of a Stack data structure using a Python list.
 """
 
 
+# pylint: disable=too-few-public-methods
 class Stack:
     """A class implementing stack data structure using a list."""
     def create(self, data):
