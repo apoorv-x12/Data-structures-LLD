@@ -1,6 +1,9 @@
+"""Implementation of a Least Recently Used (LRU) Cache using a doubly linked list."""
+
+
 class Node:
     """A node in a doubly linked list with key-value pair."""
-    def __init__(self, key: int, value: int):
+    def __init__(self, key, value):
         self.key = key
         self.value = value
         self.next = None
@@ -15,7 +18,7 @@ class DoublyLinkedList:
         self.head.next = self.tail
         self.tail.previous = self.head
 
-    def insert_front(self, node: 'Node') -> 'Node':
+    def insert_front(self, node):
         """Insert a node at the front of the list."""
         node.next = self.head.next
         node.next.previous = node
@@ -23,7 +26,7 @@ class DoublyLinkedList:
         node.previous = self.head
         return self.head.next
 
-    def pop(self, node: 'Node') -> 'Node':
+    def pop(self, node):
         """Remove a node from the list and return it."""
         temp = node.previous
         temp.next = node.next
@@ -34,12 +37,12 @@ class DoublyLinkedList:
 
 class LRUCache:
     """Least Recently Used (LRU) cache implementation."""
-    def __init__(self, capacity: int):
+    def __init__(self, capacity):
         self.capacity = capacity
         self.map = {}
         self.dll = DoublyLinkedList()
 
-    def get(self, key: int) -> int:
+    def get(self, key):
         """Get the value for the given key. Returns -1 if key doesn't exist."""
         if key not in self.map:
             return -1
@@ -47,7 +50,7 @@ class LRUCache:
         self.dll.insert_front(remove_node)
         return remove_node.value
 
-    def put(self, key: int, value: int) -> None:
+    def put(self, key, value):
         """Insert or update a key-value pair in the cache."""
         if key in self.map:
             self.map[key].key = key
