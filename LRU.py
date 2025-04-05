@@ -1,56 +1,66 @@
 class Node:
-    def __init__(self,key,value):
-        self.key=key
-        self.value=value
-        self.next=None
-        self.previous=None
-      
-class DLL:
-    def __init__(self):
-        self.head=Node(-1,-1)
-        self.tail=Node(-1,-1)
-        self.head.next=self.tail
-        self.tail.previous=self.head
+    """A node in a doubly linked list with key-value pair."""
+    def __init__(self, key: int, value: int):
+        self.key = key
+        self.value = value
+        self.next = None
+        self.previous = None
 
-    def insert_front(self, node):
-        node.next=self.head.next
-        node.next.previous=node
-        self.head.next=node
-        node.previous=self.head
+
+class DoublyLinkedList:
+    """Doubly Linked List implementation for LRU Cache."""
+    def __init__(self):
+        self.head = Node(-1, -1)
+        self.tail = Node(-1, -1)
+        self.head.next = self.tail
+        self.tail.previous = self.head
+
+    def insert_front(self, node: 'Node') -> 'Node':
+        """Insert a node at the front of the list."""
+        node.next = self.head.next
+        node.next.previous = node
+        self.head.next = node
+        node.previous = self.head
         return self.head.next
 
-    def pop(self, node):
-        t=node.previous
-        t.next=node.next
-        node.next.previous=t
-        node.next=node.previous=None
+    def pop(self, node: 'Node') -> 'Node':
+        """Remove a node from the list and return it."""
+        temp = node.previous
+        temp.next = node.next
+        node.next.previous = temp
+        node.next = node.previous = None
         return node
 
-class LRUCache:
 
+class LRUCache:
+    """Least Recently Used (LRU) cache implementation."""
     def __init__(self, capacity: int):
-        self.capacity=capacity
-        self.map={}
-        self.DLL=DLL()
+        self.capacity = capacity
+        self.map = {}
+        self.dll = DoublyLinkedList()
 
     def get(self, key: int) -> int:
+        """Get the value for the given key. Returns -1 if key doesn't exist."""
         if key not in self.map:
             return -1
-        remove_node=self.DLL.pop(self.map[key])
-        self.DLL.insert_front(remove_node)
+        remove_node = self.dll.pop(self.map[key])
+        self.dll.insert_front(remove_node)
         return remove_node.value
 
     def put(self, key: int, value: int) -> None:
+        """Insert or update a key-value pair in the cache."""
         if key in self.map:
-            self.map[key].key=key
-            self.map[key].value=value
-            remove_node=self.DLL.pop(self.map[key])
-            self.DLL.insert_front(remove_node)
+            self.map[key].key = key
+            self.map[key].value = value
+            remove_node = self.dll.pop(self.map[key])
+            self.dll.insert_front(remove_node)
             return
-        if len(self.map)==self.capacity:
-            n=self.DLL.tail.previous
-            remove_node=self.DLL.pop(n)
+
+        if len(self.map) == self.capacity:
+            node = self.dll.tail.previous
+            remove_node = self.dll.pop(node)
             del self.map[remove_node.key]
-        t=Node(key,value)
-        self.DLL.insert_front(t)
-        self.map[key]=t
+
+        new_node = Node(key, value)
+        self.dll.insert_front(new_node)
+        self.map[key] = new_node
