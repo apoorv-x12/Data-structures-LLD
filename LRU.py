@@ -1,6 +1,7 @@
 """Implementation of a Least Recently Used (LRU) Cache using a doubly linked list."""
 
 
+# pylint: disable=too-few-public-methods
 class Node:
     """A node in a doubly linked list with key-value pair."""
     def __init__(self, key, value):
